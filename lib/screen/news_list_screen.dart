@@ -15,8 +15,6 @@ class _NewsListScreenState extends State<NewsListScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<ArticleListViewModel>(context, listen: false)
-        .populateTopHeadLines();
   }
 
   @override
@@ -53,13 +51,30 @@ class _NewsListScreenState extends State<NewsListScreen> {
               ),
             ),
           ),
-          _buildList(context, vm),
+          ContentList(),
         ],
       ),
     );
   }
+}
 
-  Widget _buildList(BuildContext context, ArticleListViewModel vm) {
+class ContentList extends StatefulWidget {
+  @override
+  _ContentListState createState() => _ContentListState();
+}
+
+class _ContentListState extends State<ContentList> {
+  @override
+  void initState() {
+    Provider.of<ArticleListViewModel>(context, listen: false)
+        .populateTopHeadLines();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ArticleListViewModel vm = Provider.of<ArticleListViewModel>(context);
+
     switch (vm.loadingStatus) {
       case LoadingStatus.searching:
         return Expanded(
